@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="lotProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:application.properties"/>
+    </bean>
+
+    <bean id="parkingLotEntry" class="com.ochiwerks.app.demo.parkinglot.model.ParkingLotEntrance">
+        <property name="parkingService" ref="parkingService"/>
+    </bean>
+
+    <bean id="parkingLotExit" class="com.ochiwerks.app.demo.parkinglot.model.ParkingLotExit">
+        <property name="parkingService" ref="parkingService"/>
+    </bean>
+
+    <bean id="parkingLot" class="com.ochiwerks.app.demo.parkinglot.model.ParkingLot">
+        <constructor-arg name="entrances" value="${parking.lot.entrances}"/>
+        <constructor-arg name="exits" value="${parking.lot.exits}"/>
+
+        <property name="lotName" value="${parking.lot.name}"/>
+        <property name="lotDescription" value="${parking.lot.description}"/>
+        <property name="parkingService" ref="parkingService"/>
+    </bean>
+
+    <bean id="parkingService" class="com.ochiwerks.app.demo.parkinglot.services.ParkingServiceImpl">
+        <property name="lotCapacity" value="${parking.lot.max.capacity}"/>
+        <property name="parkingLot" ref="parkingLot"/>
+    </bean>
+</beans>
